@@ -9,10 +9,18 @@ import { connectDB } from "./lib/db.js";
 
 const PORT = process.env.PORT || 3001;
 
-job.start();
+// job.start();
 
 app.use(express.json());
 app.use(cors());
+
+app.get("/test", (req, res) => {
+  console.log("TEST ROUTE HIT");
+
+  res.json({
+    success: true,
+  });
+});
 
 app.use("/api/auth", authRoutes);
 app.use("/api/books", bookRoutes);

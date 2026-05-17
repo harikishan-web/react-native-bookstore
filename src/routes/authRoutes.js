@@ -4,11 +4,10 @@ import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
-const generateToken = (userId)=>{
+const generateToken = (userId) => {
   // Implementation for generating JWT token
-    return jwt.sign({userId}, process.env.JWT_SECRET,{expiresIn:"15d"})
-}
-
+  return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: "15d" });
+};
 
 
 router.post("/register", async (req, res) => {
@@ -51,63 +50,62 @@ router.post("/register", async (req, res) => {
 
     const user = new User({ email, username, password, profileImage });
 
-    await user.save();// user created successfully
+    await user.save(); // user created successfully
 
     // Genereate jwt token
-    const token = generateToken(user._id)
-
+    const token = generateToken(user._id);
 
     // send response
-    res.status(201).json({token,user:{
+    res.status(201).json({
+      token,
+      user: {
         _id: user._id,
         username: user.username,
         email: user.email,
-        profileImage: user.profileImage
-    }})
+        profileImage: user.profileImage,
+      },
+    });
   } catch (error) {
     console.error("Error in /register route:", error);
     res.status(500).json({ message: "Internal Server error" });
   }
 });
 
-
 router.post("/login", async (req, res) => {
-try {
-  const{email, password} = req.body;
-  if(!email || !password){
-    return res.status(400).json({message:"All fields are required"})
-  }
-
-  // check if user exists
-  const user = await User.findOne({email})
-  if(!user){
-    return res.status(400).json({message:"Invalid credentials"})
-  }
-  // check if password is correct
-  const isPasswordCorrect = await user.comparePassword(password);
-  if(!isPasswordCorrect){
-    return res.status(400).json({message:"Invalid credentials"})
-  }
-  // Genereate jwt token
-  const token = generateToken(user._id);
-
-  // send response
-  res.status(200).json({
-    token,
-    user:{
-      id:user._id,
-      username: user.username,
-      email: user.email,
-      profileImage: user.profileImage
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ message: "All fields are required" });
     }
-  })
 
+    // check if user exists
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+    // check if password is correct
+    const isPasswordCorrect = await user.comparePassword(password);
+    if (!isPasswordCorrect) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+    // Genereate jwt token
+    const token = generateToken(user._id);
 
-} catch (error) {
-  console.log("Error in login route", error);
-  
-  res.status(500).json({message:"Internal Server error"})
-}
+    // send response
+    res.status(200).json({
+      token,
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        profileImage: user.profileImage,
+      },
+    });
+  } catch (error) {
+    console.log("Error in login route", error);
+
+    res.status(500).json({ message: "Internal Server error" });
+  }
 });
 
 export default router;
