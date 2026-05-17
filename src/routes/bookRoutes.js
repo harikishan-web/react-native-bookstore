@@ -42,55 +42,49 @@ const router = express.Router();
 
 
 
-// router.post("/", protectRoute, async (req, res) => {
-//   try {
-//     const { title, caption, image, rating } = req.body;
+router.post("/", protectRoute, async (req, res) => {
+  try {
+    const { title, caption, image, rating } = req.body;
 
-//     if (!image || !caption || !title || !rating) {
-//       return res.status(400).json({
-//         message: "Please provide all the fields",
-//       });
-//     }
+    if (!image || !caption || !title || !rating) {
+      return res.status(400).json({
+        message: "Please provide all the fields",
+      });
+    }
 
-//     console.log("Before cloudinary upload");
+    console.log("Before cloudinary upload");
 
-//     const uploadResponse = await cloudinary.uploader.upload(image);
+    const uploadResponse = await cloudinary.uploader.upload(image);
 
-//     console.log("After cloudinary upload");
+    console.log("After cloudinary upload");
 
-//     const imageUrl = uploadResponse.secure_url;
+    const imageUrl = uploadResponse.secure_url;
 
-//     const newBook = new Book({
-//       title,
-//       caption,
-//       image: imageUrl,
-//       rating,
-//       user: req.user._id,
-//     });
+    const newBook = new Book({
+      title,
+      caption,
+      image: imageUrl,
+      rating,
+      user: req.user._id,
+    });
 
-//     await newBook.save();
+    await newBook.save();
 
-//     console.log("Book saved");
+    console.log("Book saved");
 
-//     res.status(201).json({
-//       book: newBook,
-//     });
-//   } catch (error) {
-//     console.log("Error creating book", error);
+    res.status(201).json({
+      book: newBook,
+    });
+  } catch (error) {
+    console.log("Error creating book", error);
 
-//     res.status(500).json({
-//       message: "Internal Server Error",
-//     });
-//   }
-// });
-
-router.post("/", async (req, res) => {
-  console.log("BOOK ROUTE HIT");
-
-  res.json({
-    success: true,
-  });
+    res.status(500).json({
+      message: "Internal Server Error",
+    });
+  }
 });
+
+
 
 
 
