@@ -19,6 +19,7 @@ app.get("/test", (req, res) => {
 
   res.json({
     success: true,
+    hello: true,
   });
 });
 
