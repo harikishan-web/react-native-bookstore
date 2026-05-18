@@ -166,7 +166,7 @@ router.post(
     try {
       console.log("INSIDE MAIN ROUTE");
 
-      res.json({ success: true });
+      res.json({ success: true, hello: true });
     } catch (error) {
       console.log(error);
     }
