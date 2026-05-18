@@ -155,7 +155,23 @@ import Book from "../models/Book.js";
 import protectRoute from "../middleware/auth.middleware.js";
 
 const router = express.Router();
+router.post(
+  "/",
+  (req, res, next) => {
+    console.log("BOOK ROUTE HIT");
+    next();
+  },
+  protectRoute,
+  async (req, res) => {
+    try {
+      console.log("INSIDE MAIN ROUTE");
 
+      res.json({ success: true });
+    } catch (error) {
+      console.log(error);
+    }
+  },
+);
 router.post("/", protectRoute, async (req, res) => {
   try {
     console.log("Cloud Name:", process.env.CLOUDINARY_CLOUD_NAME);
