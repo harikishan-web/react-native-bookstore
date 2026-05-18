@@ -5,9 +5,6 @@ import protectRoute from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-
-
-
 // creating a book model
 // router.post("/", protectRoute, async (req, res) => {
 //   try {
@@ -40,8 +37,7 @@ const router = express.Router();
 // });
 
 
-
-
+// TODO-"Problem in this function to be done tomorrow"
 router.post("/", protectRoute, async (req, res) => {
   try {
     const { title, caption, image, rating } = req.body;
@@ -83,10 +79,6 @@ router.post("/", protectRoute, async (req, res) => {
     });
   }
 });
-
-
-
-
 
 router.get("/", protectRoute, async (req, res) => {
   try {
