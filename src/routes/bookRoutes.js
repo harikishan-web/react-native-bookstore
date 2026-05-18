@@ -155,23 +155,29 @@ import Book from "../models/Book.js";
 import protectRoute from "../middleware/auth.middleware.js";
 
 const router = express.Router();
-router.post(
-  "/",
-  (req, res, next) => {
-    console.log("BOOK ROUTE HIT");
-    next();
-  },
-  protectRoute,
-  async (req, res) => {
-    try {
-      console.log("INSIDE MAIN ROUTE");
 
-      res.json({ success: true, hello: true });
-    } catch (error) {
-      console.log(error);
-    }
-  },
-);
+router.post("/", protectRoute, async (req, res) => {
+  try {
+    console.log("BOOK ROUTE HIT");
+
+    console.log(process.env.CLOUDINARY_CLOUD_NAME);
+    console.log(process.env.CLOUDINARY_API_KEY);
+    console.log(process.env.CLOUDINARY_API_SECRET);
+
+    const uploadResponse = await cloudinary.uploader.upload(req.body.image);
+
+    console.log("UPLOAD SUCCESS");
+
+    res.json(uploadResponse);
+  } catch (error) {
+    console.log("CLOUDINARY ERROR:");
+    console.log(error);
+
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+});
 router.post("/", protectRoute, async (req, res) => {
   try {
     console.log("Cloud Name:", process.env.CLOUDINARY_CLOUD_NAME);
