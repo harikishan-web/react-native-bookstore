@@ -170,8 +170,13 @@ router.post("/", protectRoute, async (req, res) => {
 
     res.json(uploadResponse);
   } catch (error) {
-    console.log("CLOUDINARY ERROR:");
+    console.log("CLOUDINARY FULL ERROR");
+
     console.log(error);
+
+    console.log(error.message);
+
+    console.log(error.http_code);
 
     res.status(500).json({
       message: error.message,
