@@ -156,33 +156,33 @@ import protectRoute from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-router.post("/", protectRoute, async (req, res) => {
-  try {
-    console.log("BOOK ROUTE HIT");
+// router.post("/", protectRoute, async (req, res) => {
+//   try {
+//     console.log("BOOK ROUTE HIT");
 
-    console.log(process.env.CLOUDINARY_CLOUD_NAME);
-    console.log(process.env.CLOUDINARY_API_KEY);
-    console.log(process.env.CLOUDINARY_API_SECRET);
+//     console.log(process.env.CLOUDINARY_CLOUD_NAME);
+//     console.log(process.env.CLOUDINARY_API_KEY);
+//     console.log(process.env.CLOUDINARY_API_SECRET);
 
-    const uploadResponse = await cloudinary.uploader.upload(req.body.image);
+//     const uploadResponse = await cloudinary.uploader.upload(req.body.image);
 
-    console.log("UPLOAD SUCCESS");
+//     console.log("UPLOAD SUCCESS");
 
-    res.json(uploadResponse);
-  } catch (error) {
-    console.log("CLOUDINARY FULL ERROR");
+//     res.json(uploadResponse);
+//   } catch (error) {
+//     console.log("CLOUDINARY FULL ERROR");
 
-    console.log(error);
+//     console.log(error);
 
-    console.log(error.message);
+//     console.log(error.message);
 
-    console.log(error.http_code);
+//     console.log(error.http_code);
 
-    res.status(500).json({
-      message: error.message,
-    });
-  }
-});
+//     res.status(500).json({
+//       message: error.message,
+//     });
+//   }
+// });
 router.post("/", protectRoute, async (req, res) => {
   try {
     console.log("Cloud Name:", process.env.CLOUDINARY_CLOUD_NAME);
